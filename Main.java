@@ -154,7 +154,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
     Main main = new Main();
-    main.setBackground(Color.gray);
+    main.setBackground(Color.black);
     frame.add(main);
     frame.pack();
     frame.setVisible(true);
@@ -176,16 +176,16 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     int screenWidth = Main.screenWidth - 17;
     List<BufferedImage> wallTextures = World.getWallTextures();
     List<BufferedImage> floorCeilingTextures = World.getFloorCeilingTextures();
-    int heightOfFloor = (screenHeight - 40) / 2;
+    double heightOfFloor = (screenHeight - 40) / 2.0;
     BufferedImage image = wallTextures.get(0);
     BufferedImage floor = floorCeilingTextures.get(0);
 
     int textureHeight = image.getHeight();
 
     // drawing floor and ceiling
-    for (int i = 0; i < res / 2; i++) {
-      int floorScreenPosY = heightOfFloor + i * resFactor;
-      int ceilingScreenPosY = heightOfFloor - i * resFactor;
+    for (int i = 0; i < Math.ceil(res / 2.0); i++) {
+      int floorScreenPosY = (int) Math.floor(heightOfFloor + i * resFactor);
+      int ceilingScreenPosY = (int) Math.ceil(heightOfFloor - i * resFactor);
 
       double steps = (screenWidth) / (double) imageArray.length;
 
@@ -258,17 +258,17 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       if (height != 0) {
         textureFactorFraction = ((double) textureHeight) / height;
       }
-      int startingHeight = (screenHeight - 40 - height) / 2;
-      int start = 0;
+      double startingHeight = (screenHeight - 40 - height) / 2.0;
+      double start = 0;
       if (startingHeight < 0) {
         start = startingHeight * -1;
       }
 
-      double heightScalingFactor = textureHeight / res;
+      double heightScalingFactor = ((double)textureHeight) / res;
       height = (int) Math.ceil(height / heightScalingFactor);
       start = (int) Math.ceil(start / heightScalingFactor);
 
-      for (int j = start; j < height; j++) {
+      for (int j = (int) start; j < height; j++) {
         try {
           Color color = new Color(
               image.getRGB(
@@ -280,10 +280,10 @@ public class Main extends JPanel implements KeyListener, ActionListener {
             g.setColor(color);
           }
           g.fillRect(
-              (int) Math.floor(width * i),
-              (int) Math.floor(startingHeight + j * heightScalingFactor),
+              (int) Math.round(width * i),
+              (int) Math.ceil(startingHeight + j * heightScalingFactor),
               (int) Math.ceil(width),
-              (int) Math.ceil(heightScalingFactor));
+              (int) Math.ceil(heightScalingFactor) + 1);
         } catch (Exception e) {
         }
         if ((startingHeight + j * heightScalingFactor) > screenHeight - 40) {

@@ -30,7 +30,7 @@ public class Gun {
 
   public void fire() {
     if (go) {
-      // gunSound();
+      gunSound();
       go = false;
       BufferedImage saved = original;
       original = fired;
