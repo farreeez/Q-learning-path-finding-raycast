@@ -3,7 +3,6 @@ import java.util.Random;
 public class QlearningAgent {
     private int[][] worldMap = World.getMap();
     private int[][] rewardsMap = new int[worldMap.length][worldMap[0].length];
-    private int[][] actionMap = new int[worldMap.length][worldMap[0].length];
     private double[][][] qVals = new double[worldMap.length][worldMap[0].length][4];
     private char[] actions = { 'u', 'd', 'l', 'r' };
     private int[] agentPos = new int[2];
@@ -12,25 +11,33 @@ public class QlearningAgent {
     private double gamma = 0.95;
     private double alpha = 0.9;
 
-    public QlearningAgent(int x, int y) {
+    public QlearningAgent(int targetY, int targetX, Ai bot) {
         for (int i = 0; i < worldMap.length; i++) {
             for (int j = 0; j < worldMap[i].length; j++) {
                 if (worldMap[i][j] == 0) {
                     rewardsMap[i][j] = -1;
-                } else {
+                } else if (worldMap[i][j] == 1){
                     rewardsMap[i][j] = -100;
                 }
             }
         }
 
-        agentPos[0] = y;
-        agentPos[1] = x;
+        agentPos = bot.getPosition();
 
-        rewardsMap[y][x] = 100;
+        rewardsMap[targetY][targetY] = 100;
+
+        learn();
+    }
+
+    public boolean moveBot(){
+        int action = getNextMove(agentPos[0], agentPos[1]);
+        move(agentPos, action);
+
+        return isTerminal(agentPos);
     }
 
     private void learn() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             int[] pos = { agentPos[0], agentPos[1] };
             while (!isTerminal(pos)) {
                 int y = pos[0];
@@ -88,6 +95,5 @@ public class QlearningAgent {
         return max;
     }
 
-    // private void randStartingLoc(){
-    // }
+    
 }

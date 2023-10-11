@@ -2,8 +2,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Player {
-  private double posY = 3, posX = 3; // x and y start position
-  private double angle = Math.toRadians(270);
+  private double posY = 3, posX = 1; // x and y start position
+  private double angle = Math.toRadians(0);
   private int res;
   private double fov = 90;
   private double inc;

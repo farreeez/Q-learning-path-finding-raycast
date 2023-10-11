@@ -1,11 +1,16 @@
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Ai extends Sprite {
   int health;
   boolean dead;
   BufferedImage deadSprite;
+  QlearningAgent aiMovement;
+  int[] pos = {(int) Math.round(posY), (int) Math.round(posX)};
+  int speed;
 
-  public Ai(double posX, double posY, BufferedImage sprite, int health, BufferedImage deadSprite) {
+  public Ai(double posY, double posX, BufferedImage sprite, int health, BufferedImage deadSprite) {
     super(posX, posY, sprite);
     this.health = health;
     this.deadSprite = deadSprite;
@@ -13,6 +18,41 @@ public class Ai extends Sprite {
       dead = true;
       this.sprite = deadSprite;
     }
+  }
+
+  public Ai(double posY, double posX, BufferedImage sprite, int health, BufferedImage deadSprite, int speed,
+      int targetY, int targetX) {
+    super(posX, posY, sprite);
+    this.health = health;
+    this.deadSprite = deadSprite;
+    if (health <= 0) {
+      dead = true;
+      this.sprite = deadSprite;
+    }
+
+    aiMovement = new QlearningAgent(targetX, targetY, this);
+    this.speed = speed;
+
+    startMovement();
+  }
+
+  public int[] getPosition(){
+    return pos;
+  }
+
+  private void startMovement() {
+    Timer timer = new Timer();
+
+    TimerTask task = new TimerTask() {
+      @Override
+      public void run(){
+        if(aiMovement.moveBot()){
+          timer.cancel();
+        }
+      }
+    };
+
+    timer.schedule(task, speed);
   }
 
   public void shot(int damage) {
