@@ -59,7 +59,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     addKeyListener(this);
 
     sprites = World.getsprites();
-    arrangeSprites(sprites, player.getPosition());
+    arrangeSprites(sprites, Player.getPosition());
     spriteAngles = new double[sprites.size()][3];
     gun = World.getGun();
 
@@ -236,9 +236,9 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       int height = (int) Math.round(textureHeight / distanceFactor);
 
       if (imageArray[i][1] == -1) {
-        image = wallTextures.get(1);
-      } else {
         image = wallTextures.get(0);
+      } else {
+        image = wallTextures.get((int) imageArray[i][1]);
       }
 
       int textureWidth = image.getWidth();
@@ -311,23 +311,9 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     int smallWidth = (int) Math.floor((double) width / worldMap[0].length);
     int smallHeight = (int) Math.floor((double) height / worldMap.length);
 
-    for (int i = 0; i < worldMap.length; i++) {
-      for (int j = 0; j < worldMap[i].length; j++) {
-        Color color = Color.BLACK;
-        if (worldMap[i][j] > 0) {
-          color = Color.GRAY;
-        } else if (worldMap[i][j] == -1) {
-          color = Color.YELLOW;
-        }
-        g.setColor(color);
-        g.fillRect(
-            screenWidth - width + 1 + smallWidth * j, smallHeight * i, smallWidth, smallHeight);
-      }
-    }
-
     // drawing sprites
 
-    arrangeSprites(sprites, player.getPosition());
+    arrangeSprites(sprites, Player.getPosition());
     double currentPosX = imageArray[0][8];
     double currentPosY = imageArray[0][9];
     double playerAngle = Math.toRadians(imageArray[(res - 1) / 2][7]);
@@ -434,7 +420,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       }
     }
 
-    double[] position = player.getPosition();
+    double[] position = Player.getPosition();
     g.setColor(Color.WHITE);
     int radius = 16;
     int playerPosX = screenWidth - width + 1 + (int) Math.round(smallWidth * position[1]);
@@ -456,6 +442,20 @@ public class Main extends JPanel implements KeyListener, ActionListener {
 
     g.drawImage(
         gun.getImg(), (2 * screenWidth) / 3, screenHeight - 40 - gun.getImg().getHeight(), this);
+
+    for (int i = 0; i < worldMap.length; i++) {
+      for (int j = 0; j < worldMap[i].length; j++) {
+        Color color = Color.BLACK;
+        if (worldMap[i][j] > 0) {
+          color = Color.GRAY;
+        } else if (worldMap[i][j] == -1) {
+          color = Color.YELLOW;
+        }
+        g.setColor(color);
+        g.fillRect(
+            screenWidth - width + 1 + smallWidth * j, smallHeight * i, smallWidth, smallHeight);
+      }
+    }
   }
 
   private boolean isBehind(int index, double distance) {

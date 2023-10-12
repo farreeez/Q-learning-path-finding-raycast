@@ -2,7 +2,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Player {
-  private double posY = 3, posX = 1; // x and y start position
+  private static double orgPosY = 3, orgPosX = 1; // x and y start position
   private double angle = Math.toRadians(0);
   private int res;
   private double fov = 90;
@@ -26,8 +26,8 @@ public class Player {
   }
 
 
-  public double[] getPosition() {
-    double[] position = { posY, posX };
+  public static double[] getPosition() {
+    double[] position = { orgPosY, orgPosX };
     return position;
   }
 
@@ -161,7 +161,7 @@ public class Player {
       imageArray = new double[res][11];
     }
     for (int i = 0; i < viewPlane.length; i++) {
-      imageArray[i] = ddaCasterHelper(i, this.posX, this.posY);
+      imageArray[i] = ddaCasterHelper(i, orgPosX, orgPosY);
     }
     return imageArray;
   }
@@ -304,8 +304,8 @@ public class Player {
     int[][] worldMap = World.getMap();
     double speed = 0.02;
     angle = angle - Math.floor(angle / (2 * Math.PI)) * (2 * Math.PI);
-    double posX = this.posX;
-    double posY = this.posY;
+    double posX = orgPosX;
+    double posY = orgPosY;
     if (angle >= 0 && angle <= Math.PI / 2) {
       posY -= Math.abs(Math.sin(angle) * speed);
       posX += Math.abs(Math.cos(angle) * speed);
@@ -323,18 +323,18 @@ public class Player {
     int y = (int) Math.floor(posY);
     int x = (int) Math.floor(posX);
 
-    int currentX = (int) Math.floor(this.posX);
+    int currentX = (int) Math.floor(orgPosX);
 
     if (posY >= 0) {
       if (y < worldMap.length && worldMap[y][currentX] == 0) {
-        this.posY = posY;
+        orgPosY = posY;
       }
     }
 
     if (posX >= 0
-        && x < worldMap[(int) Math.floor(this.posY)].length
-        && worldMap[(int) Math.floor(this.posY)][x] == 0) {
-      this.posX = posX;
+        && x < worldMap[(int) Math.floor(orgPosY)].length
+        && worldMap[(int) Math.floor(orgPosY)][x] == 0) {
+      orgPosX = posX;
     }
   }
 

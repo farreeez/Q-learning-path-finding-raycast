@@ -7,7 +7,7 @@ public class Ai extends Sprite {
   boolean dead;
   BufferedImage deadSprite;
   QlearningAgent aiMovement;
-  int[] pos = {(int) Math.round(posY), (int) Math.round(posX)};
+  int[] pos = { (int) Math.round(posY), (int) Math.round(posX) };
   int speed;
 
   public Ai(double posY, double posX, BufferedImage sprite, int health, BufferedImage deadSprite) {
@@ -20,8 +20,7 @@ public class Ai extends Sprite {
     }
   }
 
-  public Ai(double posY, double posX, BufferedImage sprite, int health, BufferedImage deadSprite, int speed,
-      int targetY, int targetX) {
+  public Ai(double posY, double posX, BufferedImage sprite, int health, BufferedImage deadSprite, int speed) {
     super(posX, posY, sprite);
     this.health = health;
     this.deadSprite = deadSprite;
@@ -30,17 +29,17 @@ public class Ai extends Sprite {
       this.sprite = deadSprite;
     }
 
-    aiMovement = new QlearningAgent(targetY, targetX, this);
+    aiMovement = new QlearningAgent(this);
     this.speed = speed;
 
     startMovement();
   }
 
-  public int[] getPosition(){
+  public int[] getPosition() {
     return pos;
   }
 
-  public void setPosition(int[] position){
+  public void setPosition(int[] position) {
     pos = position;
   }
 
@@ -49,8 +48,11 @@ public class Ai extends Sprite {
 
     TimerTask task = new TimerTask() {
       @Override
-      public void run(){
-        if(aiMovement.moveBot()){
+      public void run() {
+        double[] playerPosition = Player.getPosition();
+        double yPos = playerPosition[0];
+        double xPos = playerPosition[1];
+        if (dead || aiMovement.moveBot(yPos, xPos)) {
           timer.cancel();
         }
       }

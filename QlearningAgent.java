@@ -3,7 +3,7 @@ import java.util.Random;
 public class QlearningAgent {
     private int[][] worldMap = World.getMap();
     private int[][] rewardsMap = new int[worldMap.length][worldMap[0].length];
-    private double[][][] qVals = new double[worldMap.length][worldMap[0].length][4];
+    private double[][][][][] qVals = new double[worldMap.length][worldMap[0].length][worldMap.length][worldMap[0].length][4];
     private char[] actions = { 'u', 'd', 'l', 'r' };
     private int[] agentPos = new int[2];
     private Random random = new Random(System.currentTimeMillis());
@@ -12,12 +12,12 @@ public class QlearningAgent {
     private double alpha = 0.9;
     private Ai bot;
 
-    public QlearningAgent(int targetY, int targetX, Ai bot) {
+    public QlearningAgent(Ai bot) {
         for (int i = 0; i < worldMap.length; i++) {
             for (int j = 0; j < worldMap[i].length; j++) {
                 if (worldMap[i][j] == 0) {
                     rewardsMap[i][j] = -1;
-                } else if (worldMap[i][j] == 1){
+                } else if (worldMap[i][j] == 1) {
                     rewardsMap[i][j] = -100;
                 }
             }
@@ -27,29 +27,51 @@ public class QlearningAgent {
 
         agentPos = this.bot.getPosition();
 
-        rewardsMap[targetY][targetX] = 100;
-
         learn();
     }
 
-    public boolean moveBot(){
-        int action = getNextMove(agentPos[0], agentPos[1]);
+    public boolean moveBot(double targetY, double targetX) {
+        int intTargetY = (int) Math.round(targetY);
+        int intTargetX = (int) Math.round(targetX);
+        int action = getNextMove(intTargetY, intTargetX, agentPos[0], agentPos[1]);
         move(agentPos, action);
-        bot.setPosition(agentPos);
 
         return isTerminal(agentPos);
     }
 
     private void learn() {
-        for (int i = 0; i < 1000; i++) {
-            int[] pos = { agentPos[0], agentPos[1] };
-            while (!isTerminal(pos)) {
-                int y = pos[0];
-                int x = pos[1];
-                int action = epsilonGreedy(y, x);
-                move(pos, action);
-                qVals[y][x][action] = qVals[y][x][action]
-                        + alpha * (rewardsMap[pos[0]][pos[1]] + gamma * qVals[pos[0]][pos[1]][max(qVals[pos[0]][pos[1]])] - qVals[y][x][action]);
+        for (int i = 0; i < worldMap.length; i++) {
+            for (int j = 0; j < worldMap[i].length; j++) {
+                if (rewardsMap[i][j] != -100) {
+                    rewardsMap[i][j] = 100;
+                    for (int k = 0; k < 1000; k++) {
+                        int[] pos = randPos();
+                        while (!isTerminal(pos)) {
+                            int y = pos[0];
+                            int x = pos[1];
+                            int action = epsilonGreedy(i, j, y, x);
+                            move(pos, action);
+                            qVals[i][j][y][x][action] = qVals[i][j][y][x][action]
+                                    + alpha * (rewardsMap[pos[0]][pos[1]]
+                                            + gamma * qVals[i][j][pos[0]][pos[1]][max(qVals[i][j][pos[0]][pos[1]])]
+                                            - qVals[i][j][y][x][action]);
+                        }
+                    }
+                    rewardsMap[i][j] = -1;
+                }
+            }
+        }
+    }
+
+    private int[] randPos() {
+        while (true) {
+            int pos = random.nextInt(World.getMap().length * World.getMap().length);
+            int y = pos / World.getMap().length;
+            int x = pos % World.getMap().length;
+            int[] position = { y, x };
+
+            if (!isTerminal(position)) {
+                return position;
             }
         }
     }
@@ -74,19 +96,19 @@ public class QlearningAgent {
     }
 
     // working
-    private int epsilonGreedy(int y, int x) {
-        return getMoveHelper(y, x, epsilon);
+    private int epsilonGreedy(int targetY, int targetX, int agentY, int agentX) {
+        return getMoveHelper(targetY, targetX, agentY, agentX, epsilon);
     }
 
     // working
-    private int getNextMove(int y, int x) {
-        return getMoveHelper(y, x, 1.1);
+    private int getNextMove(int i, int targetX, int agentY, int agentX) {
+        return getMoveHelper(i, targetX, agentY, agentX, 1.1);
     }
 
     // working
-    private int getMoveHelper(int y, int x, double epsilon) {
+    private int getMoveHelper(int i, int targetX, int agentY, int agentX, double epsilon) {
         if (random.nextDouble() < epsilon) {
-            return max(qVals[y][x]);
+            return max(qVals[i][targetX][agentY][agentX]);
         } else {
             return random.nextInt(4);
         }
@@ -104,5 +126,4 @@ public class QlearningAgent {
         return max;
     }
 
-    
 }
