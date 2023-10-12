@@ -10,6 +10,7 @@ public class QlearningAgent {
     private double epsilon = 0.9;
     private double gamma = 0.95;
     private double alpha = 0.9;
+    private Ai bot;
 
     public QlearningAgent(int targetY, int targetX, Ai bot) {
         for (int i = 0; i < worldMap.length; i++) {
@@ -22,9 +23,11 @@ public class QlearningAgent {
             }
         }
 
-        agentPos = bot.getPosition();
+        this.bot = bot;
 
-        rewardsMap[targetY][targetY] = 100;
+        agentPos = this.bot.getPosition();
+
+        rewardsMap[targetY][targetX] = 100;
 
         learn();
     }
@@ -32,6 +35,7 @@ public class QlearningAgent {
     public boolean moveBot(){
         int action = getNextMove(agentPos[0], agentPos[1]);
         move(agentPos, action);
+        bot.setPosition(agentPos);
 
         return isTerminal(agentPos);
     }
@@ -45,11 +49,12 @@ public class QlearningAgent {
                 int action = epsilonGreedy(y, x);
                 move(pos, action);
                 qVals[y][x][action] = qVals[y][x][action]
-                        + alpha * (rewardsMap[y][x] + gamma * qVals[pos[0]][pos[1]][max(qVals[y][x])] - qVals[y][x][action]);
+                        + alpha * (rewardsMap[pos[0]][pos[1]] + gamma * qVals[pos[0]][pos[1]][max(qVals[pos[0]][pos[1]])] - qVals[y][x][action]);
             }
         }
     }
 
+    // working
     private void move(int[] arr, int actionNum) {
         char action = actions[actionNum];
         if (action == 'u' && arr[0] - 1 >= 0) {
@@ -63,23 +68,27 @@ public class QlearningAgent {
         }
     }
 
-    private boolean isTerminal(int[] arr) {
+    // working
+    public boolean isTerminal(int[] arr) {
         return rewardsMap[arr[0]][arr[1]] != -1;
     }
 
+    // working
     private int epsilonGreedy(int y, int x) {
         return getMoveHelper(y, x, epsilon);
     }
 
+    // working
     private int getNextMove(int y, int x) {
         return getMoveHelper(y, x, 1.1);
     }
 
+    // working
     private int getMoveHelper(int y, int x, double epsilon) {
         if (random.nextDouble() < epsilon) {
             return max(qVals[y][x]);
         } else {
-            return (int) qVals[y][x][random.nextInt(4)];
+            return random.nextInt(4);
         }
     }
 

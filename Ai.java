@@ -30,7 +30,7 @@ public class Ai extends Sprite {
       this.sprite = deadSprite;
     }
 
-    aiMovement = new QlearningAgent(targetX, targetY, this);
+    aiMovement = new QlearningAgent(targetY, targetX, this);
     this.speed = speed;
 
     startMovement();
@@ -38,6 +38,10 @@ public class Ai extends Sprite {
 
   public int[] getPosition(){
     return pos;
+  }
+
+  public void setPosition(int[] position){
+    pos = position;
   }
 
   private void startMovement() {
@@ -52,7 +56,7 @@ public class Ai extends Sprite {
       }
     };
 
-    timer.schedule(task, speed);
+    timer.scheduleAtFixedRate(task, 0, 1000);
   }
 
   public void shot(int damage) {

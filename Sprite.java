@@ -11,7 +11,7 @@ public class Sprite {
         this.sprite = sprite;
     }
 
-    public double[] getpos() {
+    public double[] getPos() {
         double [] pos = {posY,posX};
         return pos;
     }

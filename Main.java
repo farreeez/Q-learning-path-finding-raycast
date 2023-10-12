@@ -264,7 +264,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
         start = startingHeight * -1;
       }
 
-      double heightScalingFactor = ((double)textureHeight) / res;
+      double heightScalingFactor = ((double) textureHeight) / res;
       height = (int) Math.ceil(height / heightScalingFactor);
       start = (int) Math.ceil(start / heightScalingFactor);
 
@@ -334,13 +334,21 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     for (int i = 0; i < sprites.size(); i++) {
       boolean dead = false;
       Sprite currentSprite = sprites.get(i);
+      double[] spritePos = new double[2];
       if (currentSprite instanceof Ai) {
         Ai ai = (Ai) currentSprite;
         if (ai.isDead()) {
           dead = true;
         }
+        spritePos[0] = ai.getPosition()[0];
+        spritePos[1] = ai.getPosition()[1];
+
+        // System.out.println("----------------");
+        // System.out.println("y: " + spritePos[0]);
+        // System.out.println("x: " + spritePos[1]);
+      } else {
+        spritePos = currentSprite.getPos();
       }
-      double[] spritePos = currentSprite.getpos();
 
       double spriteDirY = -(spritePos[0] - currentPosY);
       double spriteDirX = (spritePos[1] - currentPosX);
@@ -360,7 +368,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       if (dead) {
         currentTextureHeight /= 4;
       }
-      
+
       if (isBiggerThan(spriteAngle, Math.PI / 2)) {
         angleDiff += Math.PI / 4;
       } else {
@@ -412,7 +420,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
               if (dead) {
                 int num = (int) (spriteHeight - k * resFactor - 1);
                 int tempScreenHeight = screenHeight;
-                double pos = (tempScreenHeight - (tempScreenHeight / distanceFromPlayer)) / 2 + (tempScreenHeight / distanceFromPlayer);
+                double pos = (tempScreenHeight - (tempScreenHeight / distanceFromPlayer)) / 2
+                    + (tempScreenHeight / distanceFromPlayer);
                 screenY = (int) Math.round(pos - num);
               }
               if ((rgb >> 24 & 0xFF) != 0) {
