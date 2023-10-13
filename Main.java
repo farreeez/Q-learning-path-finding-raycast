@@ -46,6 +46,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
   private Gun gun;
 
   public Main() {
+    QlearningAgent.initialize();
+
     if (debug) {
       res = 21;
     } else if (res % 2 == 0) {
