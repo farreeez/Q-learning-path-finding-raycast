@@ -36,7 +36,7 @@ public class Player {
   }
 
   private double[] ddaCasterHelper(int i, double orgPosX, double orgPosY) {
-    double[] imageArray = new double[11];
+    double[] imageArray = new double[12];
     double hypX = 1000000000;
     double hypY = 1000000000;
     double yStep = 0;
@@ -142,6 +142,7 @@ public class Player {
     imageArray[5] = y;
     imageArray[6] = x;
     imageArray[10] = worldMap[y][x];
+    imageArray[11] = count;
 
     if (x >= 0 && y >= 0 && y < worldMap.length && x < worldMap[y].length) {
       imageArray[1] = worldMap[y][x];

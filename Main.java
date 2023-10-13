@@ -30,7 +30,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
   private boolean mvLeft = true;
   private boolean rtRight = true;
   private boolean rtLeft = true;
-  private static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+  private static GraphicsDevice device =
+      GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
   private boolean fullscreen = false;
   private static JFrame frame;
   private int centreX;
@@ -47,6 +48,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
 
   public Main() {
     QlearningAgent.initialize();
+    World.initWorld();
 
     if (debug) {
       res = 21;
@@ -75,7 +77,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 
     // Create a new blank cursor.
-    blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+    blankCursor =
+        Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 
     originalCursor = getCursor();
 
@@ -96,8 +99,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     this.addMouseListener(
         new MouseListener() {
           @Override
-          public void mouseClicked(MouseEvent e) {
-          }
+          public void mouseClicked(MouseEvent e) {}
 
           @Override
           public void mousePressed(MouseEvent e) {
@@ -130,7 +132,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
               if (notHit) {
                 if (imageArray[(res - 1) / 2][1] == -1) {
                   int[][] worldMap = World.getMap();
-                  worldMap[(int) imageArray[(res - 1) / 2][5]][(int) imageArray[(res - 1) / 2][6]] = 0;
+                  worldMap[(int) imageArray[(res - 1) / 2][5]][(int) imageArray[(res - 1) / 2][6]] =
+                      0;
                   World.setMap(worldMap);
                 }
               }
@@ -138,16 +141,13 @@ public class Main extends JPanel implements KeyListener, ActionListener {
           }
 
           @Override
-          public void mouseReleased(MouseEvent e) {
-          }
+          public void mouseReleased(MouseEvent e) {}
 
           @Override
-          public void mouseEntered(MouseEvent e) {
-          }
+          public void mouseEntered(MouseEvent e) {}
 
           @Override
-          public void mouseExited(MouseEvent e) {
-          }
+          public void mouseExited(MouseEvent e) {}
         });
   }
 
@@ -193,10 +193,13 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       double steps = (screenWidth) / (double) imageArray.length;
 
       for (int j = 0; j < imageArray.length; j++) {
-        double currentDistance = textureHeight / (Math.cos(imageArray[j][2]) * resFactor * i * 2 * 0.8);
+        double currentDistance =
+            textureHeight / (Math.cos(imageArray[j][2]) * resFactor * i * 2 * 0.8);
 
-        double posX = imageArray[0][8] + currentDistance * Math.cos(Math.toRadians(imageArray[j][7]));
-        double posY = imageArray[0][9] - currentDistance * Math.sin(Math.toRadians(imageArray[j][7]));
+        double posX =
+            imageArray[0][8] + currentDistance * Math.cos(Math.toRadians(imageArray[j][7]));
+        double posY =
+            imageArray[0][9] - currentDistance * Math.sin(Math.toRadians(imageArray[j][7]));
 
         Color floorColor = Color.white;
 
@@ -204,7 +207,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
             && posY < World.floorTexture.length
             && posX >= 0
             && posX < World.floorTexture[(int) posY].length) {
-          double factor = 1 / Math.pow(currentDistance, 0.2);
+          double factor = 1 / Math.pow(currentDistance, 0.8);
           if (World.floorTexture[(int) Math.floor(posY)][(int) Math.floor(posX)] == 1) {
             double ty = posY - Math.floor(posY);
             double tx = posX - Math.floor(posX);
@@ -226,7 +229,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       double originalDistance = imageArray[i][0];
       double factor = 0;
       if (imageArray[i][1] != 0) {
-        factor = imageArray[i][3] / Math.pow(originalDistance, 0.2);
+        factor = imageArray[i][3] / Math.pow(originalDistance, 0.8);
       }
 
       factor = Math.min(factor, 1.3);
@@ -238,7 +241,9 @@ public class Main extends JPanel implements KeyListener, ActionListener {
 
       int height = (int) Math.round(textureHeight / distanceFactor);
 
-      if (imageArray[i][1] == -1) {
+      if (imageArray[i][11] == 2000) {
+        image = World.black;
+      } else if (imageArray[i][1] == -1) {
         image = wallTextures.get(0);
       } else {
         image = wallTextures.get((int) imageArray[i][1]);
@@ -273,10 +278,11 @@ public class Main extends JPanel implements KeyListener, ActionListener {
 
       for (int j = (int) start; j < height; j++) {
         try {
-          Color color = new Color(
-              image.getRGB(
-                  (int) Math.floor(xTexture * textureWidth),
-                  (int) (j * textureFactorFraction * heightScalingFactor)));
+          Color color =
+              new Color(
+                  image.getRGB(
+                      (int) Math.floor(xTexture * textureWidth),
+                      (int) (j * textureFactorFraction * heightScalingFactor)));
           if (imageArray[i][1] != 0) {
             g.setColor(adjustColorBrightness(color, factor));
           } else {
@@ -345,7 +351,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       double angleDiff = fixAngle(Math.PI / 2 - spriteAngle);
       double orgAngleDiff = angleDiff;
 
-      double orgDistanceFromPlayer = distBetweenPoints(currentPosX, currentPosY, spritePos[1], spritePos[0]);
+      double orgDistanceFromPlayer =
+          distBetweenPoints(currentPosX, currentPosY, spritePos[1], spritePos[0]);
 
       spriteAngles[i][2] = orgDistanceFromPlayer;
 
@@ -365,8 +372,9 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       double middlePos = angleDiff * screenWidth / (Math.PI / 2);
 
       if (middlePos > 0 && middlePos < screenWidth) {
-        distanceFromPlayer = orgDistanceFromPlayer
-            * Math.cos(imageArray[(int) Math.floor(middlePos / resFactor)][2]);
+        distanceFromPlayer =
+            orgDistanceFromPlayer
+                * Math.cos(imageArray[(int) Math.floor(middlePos / resFactor)][2]);
       }
 
       double spriteHeight = (currentTextureHeight / (distanceFromPlayer * 0.8));
@@ -389,7 +397,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       if (spritePixel >= 0 && spritePixel <= imageArray.length) {
         rightAngle = (int) spritePixel;
       }
-      double[] arr = { leftAngle, rightAngle, orgDistanceFromPlayer };
+      double[] arr = {leftAngle, rightAngle, orgDistanceFromPlayer};
       spriteAngles[i] = arr;
 
       double adjustedSpriteHeight = spriteHeight / resFactor;
@@ -403,13 +411,14 @@ public class Main extends JPanel implements KeyListener, ActionListener {
               int tx = (int) Math.floor(j * widthFactor);
               int ty = (int) Math.floor(k * heightFactor * resFactor);
               int rgb = img.getRGB(tx, ty);
-              int screenY = (int) Math.round(
-                  ((screenHeight - spriteHeight - 40) / 2) + k * resFactor);
+              int screenY =
+                  (int) Math.round(((screenHeight - spriteHeight - 40) / 2) + k * resFactor);
               if (dead) {
                 int num = (int) (spriteHeight - k * resFactor - 1);
                 int tempScreenHeight = screenHeight;
-                double pos = (tempScreenHeight - (tempScreenHeight / distanceFromPlayer)) / 2
-                    + (tempScreenHeight / distanceFromPlayer);
+                double pos =
+                    (tempScreenHeight - (tempScreenHeight / distanceFromPlayer)) / 2
+                        + (tempScreenHeight / distanceFromPlayer);
                 screenY = (int) Math.round(pos - num);
               }
               if ((rgb >> 24 & 0xFF) != 0) {
@@ -614,8 +623,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
   }
 
   @Override
-  public void keyTyped(KeyEvent e) {
-  }
+  public void keyTyped(KeyEvent e) {}
 
   @Override
   public void keyReleased(KeyEvent e) {

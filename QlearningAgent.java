@@ -77,7 +77,7 @@ public class QlearningAgent {
 
   private static int[] randPos() {
     while (true) {
-      int pos = random.nextInt(World.getMap().length * World.getMap().length);
+      int pos = random.nextInt(World.getMap().length * World.getMap()[0].length);
       int y = pos / World.getMap().length;
       int x = pos % World.getMap().length;
       int[] position = {y, x};
