@@ -27,6 +27,7 @@ public class Ai extends Sprite {
       dead = true;
       this.sprite = deadSprite;
     }
+
     this.speed = speed;
 
     startMovement();

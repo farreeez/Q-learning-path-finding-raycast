@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class QlearningAgent {
+
   private static int[][] worldMap = World.getMap();
   private static int[][] rewardsMap = new int[worldMap.length][worldMap[0].length];
   private static double[][][][][] qVals =
@@ -25,9 +26,12 @@ public class QlearningAgent {
     learn();
   }
 
+
+
   public static boolean moveBot(double targetY, double targetX, int[] agentPos) {
     int intTargetY = (int) Math.floor(targetY);
     int intTargetX = (int) Math.floor(targetX);
+
 
     if (intTargetX == 0) {
       intTargetX++;
@@ -64,9 +68,11 @@ public class QlearningAgent {
             }
           }
           rewardsMap[i][j] = -1;
+
         }
       }
     }
+
   }
 
   private static int[] randPos() {
@@ -117,8 +123,10 @@ public class QlearningAgent {
       return max(qVals[i][targetX][agentY][agentX]);
     } else {
       return random.nextInt(4);
+
     }
   }
+
 
   private static int max(double[] arr) {
     int max = 0;
