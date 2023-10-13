@@ -33,8 +33,9 @@ public class Ai extends Sprite {
     startMovement();
   }
 
-  public int[] getPosition() {
-    return pos;
+  public double[] getPosition() {
+    double[] position = {pos[0] + 0.5, pos[1] + 0.5};
+    return position;
   }
 
   public void setPosition(int[] position) {

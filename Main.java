@@ -152,6 +152,7 @@ public class Main extends JPanel implements KeyListener, ActionListener {
   }
 
   public static void main(String[] args) {
+    QlearningAgent.initialize();
     frame = new JFrame("Raycaster");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -314,7 +315,6 @@ public class Main extends JPanel implements KeyListener, ActionListener {
     int smallHeight = (int) Math.floor((double) height / worldMap.length);
 
     // drawing sprites
-
     arrangeSprites(sprites, Player.getPosition());
     double currentPosX = imageArray[0][8];
     double currentPosY = imageArray[0][9];
