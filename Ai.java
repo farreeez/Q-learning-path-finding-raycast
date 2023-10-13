@@ -6,7 +6,6 @@ public class Ai extends Sprite {
   int health;
   boolean dead;
   BufferedImage deadSprite;
-  QlearningAgent aiMovement;
   int[] pos = { (int) Math.round(posY), (int) Math.round(posX) };
   int speed;
 
@@ -28,15 +27,14 @@ public class Ai extends Sprite {
       dead = true;
       this.sprite = deadSprite;
     }
-
-    aiMovement = new QlearningAgent(this);
     this.speed = speed;
 
     startMovement();
   }
 
-  public int[] getPosition() {
-    return pos;
+  public double[] getPosition() {
+    double[] position = {pos[0] + 0.5, pos[1] + 0.5};
+    return position;
   }
 
   public void setPosition(int[] position) {
@@ -52,13 +50,13 @@ public class Ai extends Sprite {
         double[] playerPosition = Player.getPosition();
         double yPos = playerPosition[0];
         double xPos = playerPosition[1];
-        if (dead || aiMovement.moveBot(yPos, xPos)) {
+        if (dead || QlearningAgent.moveBot(yPos, xPos, pos)) {
           timer.cancel();
         }
       }
     };
 
-    timer.scheduleAtFixedRate(task, 0, 1000);
+    timer.scheduleAtFixedRate(task, 0, speed);
   }
 
   public void shot(int damage) {

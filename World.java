@@ -61,7 +61,7 @@ public class World {
         BufferedImage deadGameMasterImg = ImageIO.read(new File("./sprites/deadstickman.png"));
         BufferedImage unFired = ImageIO.read(new File("./fingerGun/noFire.png"));
         BufferedImage fired = ImageIO.read(new File("./fingerGun/fire.png"));
-        Sprite gameMaster = new Ai(5, 3, gameMasterImg, 50, deadGameMasterImg, 250);
+        Sprite gameMaster = new Ai(5, 3, gameMasterImg, 50, deadGameMasterImg, 400);
         // Sprite manman = new Ai(17.5, 6.5, gameMasterImg, 50, deadGameMasterImg);
         // Sprite pp = new Ai(11.5, 12.5, gameMasterImg, 50, deadGameMasterImg);
         gun = new Gun(unFired, 10, fired);
