@@ -51,13 +51,21 @@ public class Ai extends Sprite {
         double[] playerPosition = Player.getPosition();
         double yPos = playerPosition[0];
         double xPos = playerPosition[1];
-        if (dead || QlearningAgent.moveBot(yPos, xPos, pos)) {
+        boolean stop = QlearningAgent.moveBot(yPos, xPos, pos);
+        updatePos();
+
+        if (dead || stop) {
           timer.cancel();
         }
       }
     };
 
     timer.scheduleAtFixedRate(task, 0, speed);
+  }
+
+  private void updatePos(){
+    super.setPosX(pos[1] + 0.5);
+    super.setPosY(pos[0] + 0.5);
   }
 
   public void shot(int damage) {

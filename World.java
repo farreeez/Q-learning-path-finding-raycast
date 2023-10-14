@@ -34,7 +34,7 @@ public class World {
   //     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
   // };
 
-  private static int worldMap[][] = new int[50][50];
+  private static int worldMap[][] = new int[25][25];
 
   public static void initWorld(){
     for(int i = 0; i < worldMap.length; i++){
@@ -73,7 +73,7 @@ public class World {
         black = ImageIO.read(new File("./wallTextures/black.png"));
         floorCeilingTextures.add(ImageIO.read(new File("./floorAndCeilingTextures/floortiles.png")));
         BufferedImage gameMasterImg = ImageIO.read(new File("./sprites/stickman.png"));
-        BufferedImage deadGameMasterImg = ImageIO.read(new File("./sprites/deadstickman.png"));
+        BufferedImage deadGameMasterImg = ImageIO.read(new File("./sprites/bdeadstickman.png"));
         BufferedImage unFired = ImageIO.read(new File("./fingerGun/noFire.png"));
         BufferedImage fired = ImageIO.read(new File("./fingerGun/fire.png"));
         Sprite gameMaster = new Ai(5, 3, gameMasterImg, 50, deadGameMasterImg, 400);

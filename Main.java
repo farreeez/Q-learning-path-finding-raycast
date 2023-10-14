@@ -431,20 +431,8 @@ public class Main extends JPanel implements KeyListener, ActionListener {
       }
     }
 
-    double[] position = Player.getPosition();
-    g.setColor(Color.WHITE);
-    int radius = 16;
-    int playerPosX = screenWidth - width + 1 + (int) Math.round(smallWidth * position[1]);
-    int playerPosY = (int) Math.round(smallHeight * position[0]);
-    g.fillOval(playerPosX, playerPosY, radius, radius);
-    double angle = player.getAngle() + Math.PI / 2;
-    int playerPeekX = playerPosX + (int) (radius / 2 * Math.sin(angle)) + radius / 4;
-    int playerPeekY = playerPosY + (int) (radius / 2 * Math.cos(angle)) + radius / 4;
-    g.setColor(Color.BLUE);
-    g.fillOval(playerPeekX, playerPeekY, radius / 2, radius / 2);
-    g.setColor(Color.blue);
-
     int crosairSize = 16;
+    g.setColor(Color.BLUE);
     g.fillRect(
         screenWidth / 2 - crosairSize / 2,
         (screenHeight - 40) / 2 - crosairSize / 2,
@@ -467,6 +455,19 @@ public class Main extends JPanel implements KeyListener, ActionListener {
             screenWidth - width + 1 + smallWidth * j, smallHeight * i, smallWidth, smallHeight);
       }
     }
+
+    double[] position = Player.getPosition();
+    g.setColor(Color.WHITE);
+    int radius = 16;
+    int playerPosX = screenWidth - width + 1 + (int) Math.round(smallWidth * position[1]);
+    int playerPosY = (int) Math.round(smallHeight * position[0]);
+    g.fillOval(playerPosX, playerPosY, radius, radius);
+    double angle = player.getAngle() + Math.PI / 2;
+    int playerPeekX = playerPosX + (int) (radius / 2 * Math.sin(angle)) + radius / 4;
+    int playerPeekY = playerPosY + (int) (radius / 2 * Math.cos(angle)) + radius / 4;
+    g.setColor(Color.BLUE);
+    g.fillOval(playerPeekX, playerPeekY, radius / 2, radius / 2);
+    g.setColor(Color.blue);
   }
 
   private boolean isBehind(int index, double distance) {
