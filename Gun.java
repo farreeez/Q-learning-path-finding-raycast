@@ -28,7 +28,7 @@ public class Gun {
     return original;
   }
 
-  public void fire() {
+  public void fire(int fireRate) {
     if (go) {
       gunSound();
       go = false;
@@ -43,7 +43,7 @@ public class Gun {
               go = true;
             }
           },
-          150);
+          fireRate);
     }
   }
 

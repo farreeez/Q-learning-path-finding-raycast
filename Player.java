@@ -7,7 +7,7 @@ public class Player {
   private int res;
   private double fov = 90;
   private double inc;
-  private double[][] viewPlane;
+  private static double[][] viewPlane;
 
   public Player(int res) {
     int pos = 0;
@@ -205,7 +205,7 @@ public class Player {
     timer.scheduleAtFixedRate(task, 0, 5);
   }
 
-  public void mouseAim(double movement) {
+  public static void mouseAim(double movement) {
     for (int i = 0; i < viewPlane.length; i++) {
       viewPlane[i][0] += (Math.PI / 100) * movement * 0.8;
     }
@@ -216,7 +216,7 @@ public class Player {
   // viewPlane[i][0] is the angle
   // viewPlane[i][1] is the dirY
   // viewPlane[i][2] is the dirX
-  private void changeDirection() {
+  private static void changeDirection() {
     // changeDirection(Math.PI / 4 + Math.PI);
     for (int i = 0; i < viewPlane.length; i++) {
       viewPlane[i][0] = viewPlane[i][0] - Math.floor(viewPlane[i][0] / (2 * Math.PI)) * (2 * Math.PI);
