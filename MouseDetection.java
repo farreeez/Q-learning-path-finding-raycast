@@ -30,12 +30,12 @@ public class MouseDetection extends MouseInputAdapter {
             while(firing) {
                 aimLogic();
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(20);
                 } catch (Exception s) {
-                    // TODO: handle exception
                 }
             }
         });
+        
         int fireRate = 100;
         int pressCode = e.getButton();
         Timer timer1 = new Timer();

@@ -85,7 +85,7 @@ public class World {
 
         int squares = worldMap.length * worldMap.length;
 
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 10; i++){
           int pos = random.nextInt(squares);
 
           sprites.add(new Ai(pos/worldMap.length, pos%worldMap.length, gameMasterImg, 50, deadGameMasterImg, 250));
