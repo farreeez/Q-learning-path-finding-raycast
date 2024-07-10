@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is a continuation to two of my previous projects [Raycasting Engine](https://github.com/farreeez/raycasting-project) and [TicTacToeAi](https://github.com/farreeez/TicTacToeAi) where I used the raycasting engine to further solidify my understanding of reinforcement learning concepts. This time I implemented path finding through the use of tabular Q-learning, a reinforcement learning algorithm that uses a table to store the values of state-action pairs. Through this approach, the AI learns the optimal path by updating the values based on rewards received from different actions, allowing it to make more informed decisions. Additionally, I made minor enhancements to the Raycasting Engine, including the addition of automatic shooting.
+This project is a continuation to two of my previous projects [Raycasting Engine](https://github.com/farreeez/raycasting-project) and [TicTacToeAi](https://github.com/farreeez/TicTacToeAi) as I am using the raycasting engine to further solidify my understanding of reinforcement learning concepts. I implemented path finding through the use of tabular Q-learning, a reinforcement learning algorithm that uses a table to store the values of state-action pairs. Through this approach, the AI learns the optimal path by updating the values based on rewards received from different actions, allowing it to make more informed decisions. Additionally, I made minor enhancements to the Raycasting Engine, including the addition of automatic shooting.
 
 here is a video demonstrating how the program works.
 
